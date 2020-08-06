@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package net.sailes.lambda.logger;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -60,12 +59,9 @@ public class Logger {
 
     public void info(String message) {
         LogEntry.LogEntryBuilder logEntryBuilder = LogEntry.builder()
-                .level("INFO")
-                .samplingRate(1)
                 .service(this.serviceName)
                 .timestamp(this.clock.instant().toString())
-                .message(message)
-                .coldStart(true);
+                .message(message);
 
         if (this.contextKeysAdded) {
             logEntryBuilder.functionArn(this.context.getInvokedFunctionArn())
@@ -111,6 +107,5 @@ public class Logger {
         public Logger build() {
             return new Logger(this.clock, this.objectMapper, this.sink);
         }
-
     }
 }

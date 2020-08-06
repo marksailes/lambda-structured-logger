@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package net.sailes.lambda.logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,9 +30,7 @@ import lombok.NoArgsConstructor;
 public class LogEntry {
 
     private String timestamp;
-    private String level;
     private String service;
-    private double samplingRate;
     private String message;
 
     private String functionName;
@@ -41,6 +38,4 @@ public class LogEntry {
     private String functionArn;
     private int functionMemorySize;
     private String functionRequestId;
-
-    private boolean coldStart;
 }

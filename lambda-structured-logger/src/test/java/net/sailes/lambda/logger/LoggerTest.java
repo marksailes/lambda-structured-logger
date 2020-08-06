@@ -27,7 +27,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -58,9 +57,7 @@ public class LoggerTest {
         verify(mockSink).println(captor.capture());
 
         LogEntry logEntry = OBJECT_MAPPER.readValue(captor.getValue(), LogEntry.class);
-        assertEquals(logEntry.getLevel(), "INFO");
         assertEquals(logEntry.getMessage(), "Collecting Payment");
-        assertEquals(logEntry.getSamplingRate(), 1);
         assertEquals(logEntry.getService(), "service_undefined");
         assertEquals(logEntry.getTimestamp(), "2020-06-06T19:56:24.192Z");
     }
@@ -87,21 +84,6 @@ public class LoggerTest {
         assertEquals(logEntry.getFunctionArn(), FUNCTION_ARN);
         assertEquals(logEntry.getFunctionMemorySize(), MEMORY_LIMIT_IN_MB);
         assertEquals(logEntry.getFunctionRequestId(), REQUEST_ID);
-    }
-
-    @Test
-    public void testColdStartFlagTrueOnFirstInvoke() throws JsonProcessingException {
-        Sink mockSink = mock(Sink.class);
-        Logger logger = Logger.standard().sink(mockSink).build();
-        logger.addContextKeys(aUsefulTestContext());
-
-        logger.info("Collecting Payment");
-
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(mockSink).println(captor.capture());
-
-        LogEntry logEntry = OBJECT_MAPPER.readValue(captor.getValue(), LogEntry.class);
-        assertTrue(logEntry.isColdStart());
     }
 
     @Test

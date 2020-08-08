@@ -14,3 +14,12 @@ public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent ev
 }
 ```
 
+## Maven
+
+```xml
+<dependency>
+  <groupId>net.sailes</groupId>
+  <artifactId>lambda-structured-logger</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```

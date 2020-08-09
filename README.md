@@ -18,7 +18,7 @@ public class PaymentHandler implements RequestHandler<APIGatewayProxyRequestEven
 
     Logger logger = LoggerFactory.getLogger();
     
-    public String handleRequest(APIGatewayProxyRequestEvent event, Context context) {
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
         logger.addContextKeys(context);
         logger.info("Collecting Payment");
         ...

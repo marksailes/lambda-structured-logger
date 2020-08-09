@@ -31,11 +31,13 @@ public class Logger {
     private Context context;
     private final Clock clock;
     private boolean contextKeysAdded = false;
+    private final boolean coldStart;
 
-    Logger(Clock clock, ObjectMapper objectMapper, Sink sink) {
+    Logger(Clock clock, ObjectMapper objectMapper, Sink sink, boolean coldStart) {
         this.clock = clock;
         this.objectMapper = objectMapper;
         this.sink = sink;
+        this.coldStart = coldStart;
     }
 
     public static Logger defaultLogger() {
@@ -46,7 +48,8 @@ public class Logger {
         return LoggerBuilder.builder()
                 .clock(Clock.systemUTC())
                 .objectMapper(new ObjectMapper())
-                .sink(new SystemOutSink());
+                .sink(new SystemOutSink())
+                .coldStart(true);
     }
 
     public void addContextKeys(Context context) {
@@ -61,7 +64,8 @@ public class Logger {
         LogEntry.LogEntryBuilder logEntryBuilder = LogEntry.builder()
                 .service(this.serviceName)
                 .timestamp(this.clock.instant().toString())
-                .message(message);
+                .message(message)
+                .coldStart(this.coldStart);
 
         if (this.contextKeysAdded) {
             logEntryBuilder.functionArn(this.context.getInvokedFunctionArn())
@@ -84,6 +88,7 @@ public class Logger {
         private Clock clock;
         private ObjectMapper objectMapper;
         private Sink sink;
+        private boolean coldStart;
 
         public static LoggerBuilder builder() {
             return new LoggerBuilder();
@@ -104,8 +109,13 @@ public class Logger {
             return this;
         }
 
+        public LoggerBuilder coldStart(boolean coldStart) {
+            this.coldStart = coldStart;
+            return this;
+        }
+
         public Logger build() {
-            return new Logger(this.clock, this.objectMapper, this.sink);
+            return new Logger(this.clock, this.objectMapper, this.sink, this.coldStart);
         }
     }
 }

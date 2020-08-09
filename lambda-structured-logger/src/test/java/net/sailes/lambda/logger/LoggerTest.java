@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -60,6 +61,7 @@ public class LoggerTest {
         assertEquals(logEntry.getMessage(), "Collecting Payment");
         assertEquals(logEntry.getService(), "service_undefined");
         assertEquals(logEntry.getTimestamp(), "2020-06-06T19:56:24.192Z");
+        assertTrue(logEntry.isColdStart());
     }
 
     @Test

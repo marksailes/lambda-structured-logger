@@ -32,6 +32,7 @@ public class LogEntry {
     private String timestamp;
     private String service;
     private String message;
+    private boolean coldStart;
 
     private String functionName;
     private String functionVersion;

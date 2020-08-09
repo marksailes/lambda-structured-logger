@@ -1,7 +1,11 @@
+![Java CI with Maven](https://github.com/marksailes/lambda-structured-logger/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 # Lambda Structured Logger
 A simple opinionated structured logger for AWS Lambda
 
-![Java CI with Maven](https://github.com/marksailes/lambda-structured-logger/workflows/Java%20CI%20with%20Maven/badge.svg)
+## Purpose
+
+To provide a simple and easy to use structured logger specifically for use with AWS Lambda.
 
 ## Example Usage
 

@@ -15,10 +15,9 @@ import net.sailes.lambda.logger.Logger;
 import net.sailes.lambda.logger.LoggerFactory;
 
 public class PaymentHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
-    Logger logger = LoggerFactory.getLogger();
     
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
+        Logger logger = LoggerFactory.getLogger();        
         logger.addContextKeys(context);
         logger.info("Collecting Payment");
         ...

@@ -21,26 +21,66 @@ import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class TestContext implements Context {
+    public static final String FUNCTION_NAME = "example-HelloWorldFunction-1P1Z6B39FLU73";
+    public static final int MEMORY_LIMIT_IN_MB = 512;
+    public static final String FUNCTION_ARN = "arn:aws:lambda:eu-west-1:012345678910:function:example-HelloWorldFunction-1P1Z6B39FLU73";
+    public static final String FUNCTION_VERSION = "1.0.0";
+    public static final String REQUEST_ID = "899856cb-83d1-40d7-8611-9e78f15f32f4";
 
-    private String awsRequestId;
-    private String logGroupName;
-    private String logStreamName;
-    private String functionName;
-    private String functionVersion;
-    private String invokedFunctionArn;
-    private CognitoIdentity identity;
-    private ClientContext clientContext;
-    private int remainingTimeInMillis;
-    private int memoryLimitInMB;
-    private LambdaLogger logger;
+    @Override
+    public String getAwsRequestId() {
+        return REQUEST_ID;
+    }
+
+    @Override
+    public String getLogGroupName() {
+        return null;
+    }
+
+    @Override
+    public String getLogStreamName() {
+        return null;
+    }
+
+    @Override
+    public String getFunctionName() {
+        return FUNCTION_NAME;
+    }
+
+    @Override
+    public String getFunctionVersion() {
+        return FUNCTION_VERSION;
+    }
+
+    @Override
+    public String getInvokedFunctionArn() {
+        return FUNCTION_ARN;
+    }
+
+    @Override
+    public CognitoIdentity getIdentity() {
+        return null;
+    }
+
+    @Override
+    public ClientContext getClientContext() {
+        return null;
+    }
+
+    @Override
+    public int getRemainingTimeInMillis() {
+        return 0;
+    }
+
+    @Override
+    public int getMemoryLimitInMB() {
+        return MEMORY_LIMIT_IN_MB;
+    }
+
+    @Override
+    public LambdaLogger getLogger() {
+        return null;
+    }
 }

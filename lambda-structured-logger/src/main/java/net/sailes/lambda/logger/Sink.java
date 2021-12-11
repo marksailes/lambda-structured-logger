@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package net.sailes.lambda.logger;
 
 public interface Sink {

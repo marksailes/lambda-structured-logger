@@ -26,8 +26,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 
 import static net.sailes.lambda.logger.TestContext.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +45,7 @@ public class LoggerTest {
                 .clock(this.fixedClock)
                 .build();
 
-        logger.info("Collecting Payment");
+        logger.log("Collecting Payment");
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(mockSink).println(captor.capture());
@@ -55,16 +54,15 @@ public class LoggerTest {
         assertEquals(logEntry.getMessage(), "Collecting Payment");
         assertEquals(logEntry.getService(), "service_undefined");
         assertEquals(logEntry.getTimestamp(), "2020-06-06T19:56:24.192Z");
-        assertTrue(logEntry.isColdStart());
     }
 
     @Test
     public void testLoggingIncludeContextInformation() throws IOException {
         Sink mockSink = mock(Sink.class);
         Logger logger = Logger.standard().sink(mockSink).build();
-        logger.addContextKeys(new TestContext());
+        logger.setContextKeys(new TestContext());
 
-        logger.info("Collecting Payment");
+        logger.log("Collecting Payment");
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(mockSink).println(captor.capture());
@@ -75,20 +73,5 @@ public class LoggerTest {
         assertEquals(logEntry.getFunctionArn(), FUNCTION_ARN);
         assertEquals(logEntry.getFunctionMemorySize(), MEMORY_LIMIT_IN_MB);
         assertEquals(logEntry.getFunctionRequestId(), REQUEST_ID);
-    }
-
-    @Test
-    public void testUseServiceNameIfSetInEnvVar() throws IOException {
-        System.setProperty("SERVICE_NAME", "Payment Service");
-        Sink mockSink = mock(Sink.class);
-        Logger logger = Logger.standard().sink(mockSink).build();
-
-        logger.info("Collecting Payment");
-
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(mockSink).println(captor.capture());
-
-        LogEntry logEntry = JSON.std.beanFrom(LogEntry.class, captor.getValue());
-        assertEquals(logEntry.getService(), "Payment Service");
     }
 }

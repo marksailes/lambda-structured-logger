@@ -12,14 +12,14 @@ The following example usage:
 
 ```java
 import net.sailes.lambda.logger.Logger;
-import net.sailes.lambda.logger.LoggerFactory;
 
 public class PaymentHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     
+    private static final Logger LOGGER = Logger.create();
+
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
-        Logger logger = LoggerFactory.getLogger();        
-        logger.addContextKeys(context);
-        logger.info("Collecting Payment");
+        LOGGER.setContextKeys(context);
+        LOGGER.log("Collecting Payment");
         ...
     }
 }
@@ -32,7 +32,6 @@ Produces a single line JSON formatted output (displayed in multi-line for readab
    "timestamp":"2020-08-09T11:52:34.290Z",
    "service":"Payment Service",
    "message":"Collecting Payment",
-   "coldStart":true,
    "functionName":"example-HelloWorldFunction-1P1Z6B39FLU73",
    "functionVersion":"1.0.0",
    "functionArn":"arn:aws:lambda:eu-west-1:012345678910:function:example-HelloWorldFunction-1P1Z6B39FLU73",
@@ -50,10 +49,6 @@ Produces a single line JSON formatted output (displayed in multi-line for readab
   <version>0.2.0</version>
 </dependency>
 ```
-
-## Cold Start Tracking
-
-To use the cold start tracking functionality please use the `LoggerFactory.getLogger()` method. 
 
 ## Additional Configuration
 

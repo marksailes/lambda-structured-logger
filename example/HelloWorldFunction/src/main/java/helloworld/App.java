@@ -13,16 +13,16 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import net.sailes.lambda.logger.Logger;
-import net.sailes.lambda.logger.LoggerFactory;
 
 /**
  * Handler for requests to Lambda function.
  */
 public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
+    private static final Logger LOGGER = Logger.create();
+
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
-        Logger logger = LoggerFactory.getLogger();
-        logger.addContextKeys(context);
+        LOGGER.setContextKeys(context);
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -32,7 +32,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
         try {
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            logger.info(pageContents);
+            LOGGER.log(pageContents);
             String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
 
             return response
@@ -40,7 +40,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     .withBody(output);
         } catch (IOException e) {
             return response
-                    .withBody("{}")
+                    .withBody("{\"message\": \"error\"}")
                     .withStatusCode(500);
         }
     }

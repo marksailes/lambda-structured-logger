@@ -21,7 +21,6 @@ public class LogEntry {
     private String timestamp;
     private String service;
     private String message;
-    private boolean coldStart;
 
     private String functionName;
     private String functionVersion;
@@ -33,11 +32,10 @@ public class LogEntry {
     public LogEntry() {
     }
 
-    public LogEntry(String timestamp, String service, String message, boolean coldStart, String functionName, String functionVersion, String functionArn, int functionMemorySize, String functionRequestId) {
+    public LogEntry(String timestamp, String service, String message, String functionName, String functionVersion, String functionArn, int functionMemorySize, String functionRequestId) {
         this.timestamp = timestamp;
         this.service = service;
         this.message = message;
-        this.coldStart = coldStart;
         this.functionName = functionName;
         this.functionVersion = functionVersion;
         this.functionArn = functionArn;
@@ -59,10 +57,6 @@ public class LogEntry {
 
     public String getMessage() {
         return this.message;
-    }
-
-    public boolean isColdStart() {
-        return this.coldStart;
     }
 
     public String getFunctionName() {
@@ -95,10 +89,6 @@ public class LogEntry {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void setColdStart(boolean coldStart) {
-        this.coldStart = coldStart;
     }
 
     public void setFunctionName(String functionName) {
@@ -135,7 +125,6 @@ public class LogEntry {
         final Object this$message = this.message;
         final Object other$message = other.message;
         if (this$message == null ? other$message != null : !this$message.equals(other$message)) return false;
-        if (this.coldStart != other.coldStart) return false;
         final Object this$functionName = this.functionName;
         final Object other$functionName = other.functionName;
         if (this$functionName == null ? other$functionName != null : !this$functionName.equals(other$functionName))
@@ -169,7 +158,6 @@ public class LogEntry {
         result = result * PRIME + ($service == null ? 43 : $service.hashCode());
         final Object $message = this.message;
         result = result * PRIME + ($message == null ? 43 : $message.hashCode());
-        result = result * PRIME + (this.coldStart ? 79 : 97);
         final Object $functionName = this.functionName;
         result = result * PRIME + ($functionName == null ? 43 : $functionName.hashCode());
         final Object $functionVersion = this.functionVersion;
@@ -183,7 +171,7 @@ public class LogEntry {
     }
 
     public String toString() {
-        return "LogEntry(timestamp=" + this.timestamp + ", service=" + this.service + ", message=" + this.message + ", coldStart=" + this.coldStart + ", functionName=" + this.functionName + ", functionVersion=" + this.functionVersion + ", functionArn=" + this.functionArn + ", functionMemorySize=" + this.functionMemorySize + ", functionRequestId=" + this.functionRequestId + ")";
+        return "LogEntry(timestamp=" + this.timestamp + ", service=" + this.service + ", message=" + this.message + ", functionName=" + this.functionName + ", functionVersion=" + this.functionVersion + ", functionArn=" + this.functionArn + ", functionMemorySize=" + this.functionMemorySize + ", functionRequestId=" + this.functionRequestId + ")";
     }
 
     public static class LogEntryBuilder {
@@ -246,7 +234,7 @@ public class LogEntry {
         }
 
         public LogEntry build() {
-            return new LogEntry(timestamp, service, message, coldStart, functionName, functionVersion, functionArn, functionMemorySize, functionRequestId);
+            return new LogEntry(timestamp, service, message, functionName, functionVersion, functionArn, functionMemorySize, functionRequestId);
         }
 
         public String toString() {

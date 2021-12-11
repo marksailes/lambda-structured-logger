@@ -25,7 +25,8 @@ import java.time.Clock;
 
 public class Logger {
 
-    private final String serviceName = System.getProperty("SERVICE_NAME", "service_undefined");
+    private static final String DEFAULT_SERVICE_NAME = "service_undefined";
+    private final String serviceName = System.getenv("SERVICE_NAME");
 
     private final Sink sink;
     private Context context;
@@ -39,7 +40,7 @@ public class Logger {
         this.coldStart = coldStart;
     }
 
-    public static Logger defaultLogger() {
+    public static Logger create() {
         return standard().build();
     }
 
@@ -50,7 +51,12 @@ public class Logger {
                 .coldStart(true);
     }
 
-    public void addContextKeys(Context context) {
+    /**
+     * Replaces any existing context keys with those passed.
+     *
+     * @param context
+     */
+    public void setContextKeys(Context context) {
         if (context == null) {
             throw new LoggerClientException("Context cannot be null");
         }
@@ -58,9 +64,9 @@ public class Logger {
         this.contextKeysAdded = true;
     }
 
-    public void info(String message) throws IOException {
+    public void log(String message) throws IOException {
         LogEntry.LogEntryBuilder logEntryBuilder = LogEntry.builder()
-                .service(this.serviceName)
+                .service(this.serviceName == null ? DEFAULT_SERVICE_NAME : this.serviceName)
                 .timestamp(this.clock.instant().toString())
                 .message(message)
                 .coldStart(this.coldStart);
